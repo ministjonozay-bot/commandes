@@ -52,7 +52,9 @@
 <body>
     <div class="container">
         <h1>Passer une commande</h1>
-        <form action="commande.php" method="post">
+        <form name="commande" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="commande"/>
+
             <label for="nom">Nom complet</label>
             <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
 
