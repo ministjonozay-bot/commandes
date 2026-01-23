@@ -2,36 +2,132 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Commande</title>
+<title>Commande d'allume-feux</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
 (function(){
-  emailjs.init("v63ixvVCNyzUDxCmu"); // 👈 ici
+  emailjs.init("v63ixvVCNyzUDxCmu");
 })();
 </script>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1b5e20, #4caf50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+h1 {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #1b5e20;
+}
+
+label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 14px;
+  display: block;
+}
+
+input, select, textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #2e7d32, #66bb6a);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.status {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+</style>
 </head>
 
 <body>
 
-<form id="form">
-  <input type="text" name="nom" placeholder="Nom complet" required>
-  <input type="email" name="email" placeholder="Email" required>
+<div class="card">
+  <h1>Commande d’allume-feux</h1>
 
-  <select name="quantite">
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="15">15</option>
-  </select>
+  <form id="form">
+    <label>Nom complet</label>
+    <input type="text" name="nom" required>
 
-  <textarea name="indication" placeholder="Indication"></textarea>
+    <label>Email</label>
+    <input type="email" name="email" required>
 
-  <button type="submit">Envoyer</button>
-</form>
+    <label>Quantité</label>
+    <select name="quantite">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+    </select>
+
+    <label>Indication (optionnel)</label>
+    <textarea name="indication" rows="3"></textarea>
+
+    <button type="submit">Envoyer la commande</button>
+    <div class="status" id="status"></div>
+  </form>
+</div>
 
 <script>
 document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
+  document.getElementById("status").textContent = "Envoi en cours...";
 
   emailjs.send("service_d9owzjk", "template_pzs8mo8", {
     nom: this.nom.value,
@@ -39,11 +135,15 @@ document.getElementById("form").addEventListener("submit", function(e){
     quantite: this.quantite.value,
     indication: this.indication.value
   })
-  .then(() => alert("Commande envoyée ✅"))
-  .catch(() => alert("Erreur ❌"));
+  .then(() => {
+    document.getElementById("status").textContent = "Commande envoyée ✅";
+    this.reset();
+  })
+  .catch(() => {
+    document.getElementById("status").textContent = "Erreur lors de l’envoi ❌";
+  });
 });
 </script>
 
 </body>
 </html>
-
