@@ -94,6 +94,14 @@ button:hover {
   text-align: center;
   font-size: 14px;
 }
+
+#prix {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #1b5e20;
+  text-align: center;
+}
+
 </style>
 </head>
 
@@ -110,11 +118,13 @@ button:hover {
     <input type="email" name="email" required>
 
     <label>Quantité</label>
-    <select name="quantite">
-      <option value="5">5</option>
+    <select name="quantite" id="quantite">
       <option value="10">10</option>
-      <option value="15">15</option>
+      <option value="20">20</option>
     </select>
+
+    <div id="prix">Prix : <strong>5 €</strong></div>
+
 
     <label>Indication (optionnel)</label>
     <textarea name="indication" rows="3"></textarea>
@@ -143,6 +153,21 @@ document.getElementById("form").addEventListener("submit", function(e){
     document.getElementById("status").textContent = "Erreur lors de l’envoi ❌";
   });
 });
+</script>
+<script>
+const quantite = document.getElementById("quantite");
+const prix = document.getElementById("prix");
+
+function updatePrix() {
+  if (quantite.value === "10") {
+    prix.innerHTML = "Prix : <strong>5 €</strong>";
+  } else {
+    prix.innerHTML = "Prix : <strong>10 €</strong>";
+  }
+}
+
+quantite.addEventListener("change", updatePrix);
+updatePrix(); // au chargement
 </script>
 
 </body>
